@@ -4,7 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 const postRouter = require('./routes/post.route');
-const { cloudinary } = require('./utils/cloudinary');
+const authRouter = require('./routes/auth.route');
+const uploadImg = require('./routes/uploadImg.route');
 require('dotenv').config();
 
 const app = express();
@@ -27,36 +28,10 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('Connection successfully');
 });
-// app.use('/api/images', async (req, res) => {
-//   const { resources } = await cloudinary.search
-//     .expression('folder:cum')
-//     // .sort_by('public_id', 'desc')
-//     .execute();
-//   const publicIds = resources.map((file) => file.public_id);
-//   res.send(publicIds);
-// });
-
-app.use('/api/upload', async (req, res) => {
-  try {
-    const file = req.body.file;
-    const promise = file.map(async (item) => {
-      return await cloudinary.uploader.upload(
-        item,
-        { folder: 'img' },
-        (err) => {
-          if (err) throw err;
-        }
-      );
-    });
-    let images = await Promise.all(promise);
-    res.json(images);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
-});
 
 app.use('/api', postRouter);
+app.use('/api', authRouter);
+app.use('/api', uploadImg);
 
 app.get('/', (req, res) => {
   res.status(200).json({

@@ -23,6 +23,19 @@ const getRandomPost = async (req, res) => {
   }
 };
 
+const getPostByUser = async (req, res) => {
+  const userId = req.params.id;
+  console.log(userId);
+  try {
+    const postList = await Post.find({
+      user: userId,
+    });
+    return res.status(200).json(postList);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 const getImages = async (req, res) => {
   try {
     const images = await Post.find({
@@ -80,12 +93,27 @@ const deleteManyPost = async (req, res) => {
   }
 };
 
+const deleteAllPost = async (req, res) => {
+  const userId = req.params.id;
+  console.log(userId);
+  try {
+    const post = await Post.deleteMany({
+      user: userId,
+    });
+    return res.status(200).json({ message: 'Delete successfully' });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllPost,
   getRandomPost,
+  getPostByUser,
   getImages,
   getVideos,
   createPost,
   deletePost,
   deleteManyPost,
+  deleteAllPost,
 };
