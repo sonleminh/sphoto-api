@@ -3,7 +3,6 @@ const router = express.Router();
 const { cloudinary } = require('../utils/cloudinary');
 
 router.post('/upload', async (req, res) => {
-  console.log(req.body.file);
   try {
     const file = req.body.file;
     const promise = file.map(async (item) => {

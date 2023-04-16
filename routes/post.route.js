@@ -12,11 +12,11 @@ const {
 } = require('../controllers/post.controller');
 const router = express.Router();
 
-router.get('/post', getAllPost);
+router.get('/posts', getAllPost);
 router.get('/random-post', getRandomPost);
-router.get('/image', getImages);
-router.get('/video', getVideos);
-router.get('/post/:id', getPostByUser);
+router.get('/image/:id', getImages);
+router.get('/video/:id', getVideos);
+router.get('/posts/:id', getPostByUser);
 router.post('/post', createPost);
 router.patch('/post', deleteManyPost);
 router.delete('/post/:id', deletePost);

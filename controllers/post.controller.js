@@ -25,7 +25,6 @@ const getRandomPost = async (req, res) => {
 
 const getPostByUser = async (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
   try {
     const postList = await Post.find({
       user: userId,
@@ -37,8 +36,10 @@ const getPostByUser = async (req, res) => {
 };
 
 const getImages = async (req, res) => {
+  const userId = req.params.id;
   try {
     const images = await Post.find({
+      user: userId,
       type: 'image',
     });
     return res.status(200).json(images);
@@ -48,8 +49,10 @@ const getImages = async (req, res) => {
 };
 
 const getVideos = async (req, res) => {
+  const userId = req.params.id;
   try {
     const images = await Post.find({
+      user: userId,
       type: 'video',
     });
     return res.status(200).json(images);
@@ -95,7 +98,6 @@ const deleteManyPost = async (req, res) => {
 
 const deleteAllPost = async (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
   try {
     const post = await Post.deleteMany({
       user: userId,
