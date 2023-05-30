@@ -3,7 +3,7 @@ const Post = require('../models/post.model');
 
 const getAllPost = async (req, res) => {
   try {
-    const postList = await Post.find({});
+    const postList = await Post.find({}).sort({ _id: -1 });
     return res.status(200).json(postList);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -28,7 +28,7 @@ const getPostByUser = async (req, res) => {
   try {
     const postList = await Post.find({
       user: userId,
-    });
+    }).sort({ _id: -1 });
     return res.status(200).json(postList);
   } catch (error) {
     return res.status(400).json({ error: error.message });
